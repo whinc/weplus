@@ -1,11 +1,11 @@
-import { BasePage } from '../../weplus/index'
+import * as weplus from '../../weplus/index'
 //index.js
 //获取应用实例
 var app = getApp()
 
-class IndexPage2 extends BasePage {
+class IndexPage2 extends weplus.Page {
     method2() {
-        console.log('method2');
+        console.log('IndexPage2: method2');
     }
 }
 
@@ -20,6 +20,10 @@ class IndexPage extends IndexPage2 {
 
     bindViewTap() {
         console.log('IndexPage:tap');
+    }
+
+    method2() {
+        console.log('IndexPage: method2');
     }
 
     $method3() {
