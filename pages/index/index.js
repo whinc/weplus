@@ -47,6 +47,31 @@ class IndexPage extends IndexPage2 {
                 userInfo: userInfo
             })
         })
+
+        // wx.setStorage({
+        //     key: 'k1',
+        //     data: 'd1',
+        //     success: res => {
+        //         console.log('set success %O', res)
+        //         wx.getStorage({
+        //             key: 'k1',
+        //             success: res => {
+        //                 console.log('get success %O', res);
+        //             }
+        //         });
+        //     },
+        //     fail: err => console.log('fail %O', err)
+        // });
+
+        weplus.promisify(wx.setStorage)({ key: 'k1', data: 'd1'}).then(res => {
+            console.log('set success %O', res)
+            return weplus.promisify(wx.getStorage)({ key: 'k1'});
+        }).then(res => {
+            console.log('get success %O', res)
+            weplus.promisify(wx.clearStorage)().then(() => {
+                console.log('clear storage');
+            });
+        });
     }
 }
 
