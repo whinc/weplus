@@ -1,2 +1,3 @@
 export * from './page'
-export * from './utils'
+export * from './promisify'
+export * from './fetch'

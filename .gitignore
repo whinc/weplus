@@ -3,3 +3,4 @@
 jsconfig.json
 typings/
 node_modules/
+*.css

@@ -1,12 +1,13 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/weplus-page/weplus-page",
     "pages/logs/logs"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "Weplus demo",
     "navigationBarTextStyle":"black"
   }
 }

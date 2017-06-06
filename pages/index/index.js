@@ -3,13 +3,7 @@ import * as weplus from '../../weplus/index'
 //获取应用实例
 var app = getApp()
 
-class IndexPage2 extends weplus.Page {
-    method2() {
-        console.log('IndexPage2: method2');
-    }
-}
-
-class IndexPage extends IndexPage2 {
+class IndexPage extends weplus.Page {
     constructor() {
         super();
         this.data = {
@@ -18,27 +12,38 @@ class IndexPage extends IndexPage2 {
         }
     }
 
-    bindViewTap() {
-        console.log('IndexPage:tap');
+    onClickFetchAPI() {
+        let init = {
+            headers: {
+                'content-type': 'json'
+            },
+            dataType: 'json',
+            method: 'POST',
+            data: {
+                name: 'whinc',
+                age: 25
+            }
+        };
+        weplus.fetch('https://www.webank.com', init).then(res => {
+            console.log("response: %O", res);
+            if (res.ok) {
+                console.log('success:%O', res.text());
+            } else {
+                console.error('failed, status code: %d', res.status);
+            }
+        }).catch(err => {
+            console.error("error: %O", err);
+        });
     }
 
-    method2() {
-        console.log('IndexPage: method2');
-    }
-
-    $method3() {
-        console.log('method3');
-    }
-
-    _method1() {
-        console.log('method1');
+    onClickPage() {
+        wx.navigateTo({
+            url: '/pages/weplus-page/weplus-page'
+        });
     }
 
     onLoad() {
         super.onLoad(IndexPage);
-        this._method1();
-
-        console.log('onLoad')
         var that = this
         //调用应用实例的方法获取全局数据
         app.getUserInfo(function (userInfo) {
@@ -47,21 +52,6 @@ class IndexPage extends IndexPage2 {
                 userInfo: userInfo
             })
         })
-
-        // wx.setStorage({
-        //     key: 'k1',
-        //     data: 'd1',
-        //     success: res => {
-        //         console.log('set success %O', res)
-        //         wx.getStorage({
-        //             key: 'k1',
-        //             success: res => {
-        //                 console.log('get success %O', res);
-        //             }
-        //         });
-        //     },
-        //     fail: err => console.log('fail %O', err)
-        // });
 
         weplus.promisify(wx.setStorage)({ key: 'k1', data: 'd1'}).then(res => {
             console.log('set success %O', res)
@@ -77,27 +67,3 @@ class IndexPage extends IndexPage2 {
 
 const indexPage = new IndexPage();
 Page(indexPage);
-
-// Page({
-//   data: {
-//     motto: 'Hello World',
-//     userInfo: {}
-//   },
-//   //事件处理函数
-//   bindViewTap: function() {
-//     wx.navigateTo({
-//       url: '../logs/logs'
-//     })
-//   },
-//   onLoad: function () {
-//     console.log('onLoad')
-//     var that = this
-//     //调用应用实例的方法获取全局数据
-//     app.getUserInfo(function(userInfo){
-//       //更新数据
-//       that.setData({
-//         userInfo:userInfo
-//       })
-//     })
-//   }
-// })
