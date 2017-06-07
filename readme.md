@@ -4,5 +4,6 @@ Weplus is a lightweight library for wexin mini program developement. Weplus 是�
 
 特性:
 * 小程序 API promise 化
-* 网络请求接口适配 fetch API 规范
-* 提供 Page 基类
+* fetch API 风格的网络请求接口
+* 支持网络请求队列
+* 提供 Page 基类，使用 OOP 方式编写页面
