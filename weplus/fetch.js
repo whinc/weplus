@@ -31,6 +31,50 @@ class Response {
     }
 }
 
+const requestQueue = {
+    // 请求队列
+    _queue: [],
+    // 最大并发数
+    _maxN: 10,
+    // 当前并发数
+    _curN: 0,
+    _exec() {
+        if (this._curN >= this._maxN) {
+            return;
+        }     
+
+        let restN = this._maxN - this._curN;
+        let queueLen = this._queue.length;
+        for (let i = 0; i < restN && i < queueLen; ++i) {
+            let fn = this._queue.shift();
+            ++this._curN;
+            let action = () => {
+                --this._curN;
+                this._exec();
+            };
+            fn().then(action, action);
+        }
+    },
+    add(fn) {
+        if (typeof fn !== 'function') {
+            throw new Error(fn + " is not a function");
+        } 
+
+        this._queue.push(fn);
+        this._exec();
+    },
+    addList(...fns) {
+        fns.forEach(fn => {
+            if (typeof fn !== 'function') {
+                throw new Error(fn + " is not a function");
+            }
+        });
+
+        this._queue.push(...fns);
+        this._exec()
+    }
+}
+
 /**
  * 封装 wx.request 接口为 fetch API 接口
  * @param {string} input - 请求的 URL 地址
@@ -55,13 +99,21 @@ function fetch(input, init = {}) {
         obj.dataType = init.dataType;
     }
     return new Promise((resolve, reject) => {
-        obj.success = res => {
-            resolve(new Response(res));
+        let request = () => {
+            return new Promise((resolve2, reject2) => {
+                obj.success = res => {
+                    let data = new Response(res);
+                    resolve2(data);
+                    resolve(data);
+                };
+                obj.fail = err => {
+                    reject2(err);
+                    reject(err);
+                };
+                wx.request(obj);
+            })
         };
-        obj.fail = err => {
-            reject(err);
-        };
-        wx.request(obj);
+        requestQueue.add(request);
     });
 }
 

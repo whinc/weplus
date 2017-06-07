@@ -42,6 +42,16 @@ class IndexPage extends weplus.Page {
         });
     }
 
+    onClickNetRequest(event) {
+        // 先运行命令 node server/server.js 启动接口测试服务
+        const n = Number.parseInt(event.target.dataset.n);
+        for (let i = 1; i <= n; ++i) {
+            weplus.fetch('http://127.0.0.1:8888/?n=' + i).then(res => {
+                console.log("data: %s", res.text());
+            });
+        }
+    }
+
     onLoad() {
         super.onLoad(IndexPage);
         var that = this

@@ -6,4 +6,9 @@
   <view class="container__item">
     <button catchtap="onClickFetchAPI">fetch api</button>
   </view>
+  <view class="container__item">
+    <button catchtap="onClickNetRequest" data-n="3">并发3个网络请求</button>
+    <button catchtap="onClickNetRequest" data-n="10">并发10个网络请求</button>
+    <button catchtap="onClickNetRequest" data-n="20">并发20个网络请求</button>
+  </view>
 </view>
