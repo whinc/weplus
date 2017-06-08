@@ -1,0 +1,6 @@
+<template name='button-group'>
+    <view class="bg-red">
+        <button type='primary' catchtap="onTapBtn1">{{text1}}</button>
+        <button type='primary' catchtap="onTapBtn2">{{text2}}</button>
+    </view>
+</template>

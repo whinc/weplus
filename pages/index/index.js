@@ -1,4 +1,6 @@
 import * as weplus from '../../weplus/index'
+import { ButtonGroup } from '../../components/button-group/button-group'
+
 //index.js
 //获取应用实例
 var app = getApp()
@@ -8,7 +10,8 @@ class IndexPage extends weplus.Page {
         super();
         this.data = {
             motto: 'Hello World',
-            userInfo: {}
+            userInfo: {},
+            buttonGroup: null
         }
     }
 
@@ -55,6 +58,16 @@ class IndexPage extends weplus.Page {
     onLoad() {
         super.onLoad(IndexPage);
         var that = this
+
+        this.setData({
+            [ButtonGroup.name]: ButtonGroup
+        });
+        Object.getOwnPropertyNames(ButtonGroup).forEach(name => {
+            if (typeof ButtonGroup[name] === 'function') {
+                this[name] = ButtonGroup[name].bind(this.data[ButtonGroup.name]);
+            }
+        });
+
         //调用应用实例的方法获取全局数据
         app.getUserInfo(function (userInfo) {
             //更新数据

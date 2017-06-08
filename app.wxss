@@ -1,3 +1,5 @@
+@import '/components/button-group/button-group.wxss';
+
 /**app.wxss**/
 .container {
   height: 600rpx;
