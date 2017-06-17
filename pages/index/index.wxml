@@ -14,6 +14,6 @@
     <button catchtap="onClickNetRequest" data-n="20">并发20个网络请求</button>
   </view>
   <view class="container__item">
-      <template is="button-group" data="{{...buttonGroup}}"></template>
+      <template is="button-group" data="{{...ButtonGroup}}"></template>
   </view>
 </view>

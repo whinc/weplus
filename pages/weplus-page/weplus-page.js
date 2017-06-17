@@ -1,4 +1,4 @@
-import * as weplus from '../../weplus/index'
+import weplus from '../../weplus/index'
 
 class WeplusPage extends weplus.Page {
     onLoad() {

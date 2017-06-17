@@ -1,4 +1,4 @@
-import * as weplus from '../../weplus/index'
+import weplus from '../../weplus/index'
 import { ButtonGroup } from '../../components/button-group/button-group'
 
 //index.js
@@ -11,7 +11,7 @@ class IndexPage extends weplus.Page {
         this.data = {
             motto: 'Hello World',
             userInfo: {},
-            buttonGroup: null
+            [ButtonGroup.NAME]: null
         }
     }
 
@@ -59,14 +59,15 @@ class IndexPage extends weplus.Page {
         super.onLoad(IndexPage);
         var that = this
 
-        this.setData({
-            [ButtonGroup.name]: ButtonGroup
-        });
-        Object.getOwnPropertyNames(ButtonGroup).forEach(name => {
-            if (typeof ButtonGroup[name] === 'function') {
-                this[name] = ButtonGroup[name].bind(this.data[ButtonGroup.name]);
-            }
-        });
+        // const buttonGroup = new ButtonGroup();
+        // this.setData({
+        //     [ButtonGroup.NAME]: buttonGroup
+        // });
+        // Object.getOwnPropertyNames(buttonGroup).forEach(name => {
+        //     if (typeof buttonGroup[name] === 'function') {
+        //         this[name] = ButtonGroup[name].bind(this.data[ButtonGroup.name]);
+        //     }
+        // });
 
         //调用应用实例的方法获取全局数据
         app.getUserInfo(function (userInfo) {
@@ -89,4 +90,5 @@ class IndexPage extends weplus.Page {
 }
 
 const indexPage = new IndexPage();
+indexPage.registerComponent(new ButtonGroup());
 Page(indexPage);
