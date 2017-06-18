@@ -1,0 +1,4 @@
+
+<template name='ToggleButton'>
+    <button catchtap="ToggleButton_onTap" data-id='{{id}}'>{{text}}</button>
+</template>

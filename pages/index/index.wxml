@@ -1,4 +1,5 @@
 <import src='/components/button-group/button-group.wxml'/>
+<import src='/components/toggle-button/toggle-button.wxml'/>
 
 <!--index.wxml-->
 <view class="container">
@@ -14,6 +15,12 @@
     <button catchtap="onClickNetRequest" data-n="20">并发20个网络请求</button>
   </view>
   <view class="container__item">
-      <template is="button-group" data="{{...ButtonGroup}}"></template>
+      <template is="ButtonGroup" data="{{...ButtonGroup}}"></template>
+  </view>
+  <view class="container__item">
+      <template is="ToggleButton" data="{{...ToggleButton_1, id: '1'}}"></template>
+  </view>
+  <view class="container__item">
+      <template is="ToggleButton" data="{{...ToggleButton_2, id: '2'}}"></template>
   </view>
 </view>

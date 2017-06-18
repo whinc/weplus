@@ -1,5 +1,5 @@
 import weplus from '../../weplus/index'
-import { ButtonGroup } from '../../components/button-group/button-group'
+import { ButtonGroup, ToggleButton } from '../../components/index'
 
 //index.js
 //获取应用实例
@@ -10,8 +10,7 @@ class IndexPage extends weplus.Page {
         super();
         this.data = {
             motto: 'Hello World',
-            userInfo: {},
-            [ButtonGroup.NAME]: null
+            userInfo: {}
         }
     }
 
@@ -90,5 +89,7 @@ class IndexPage extends weplus.Page {
 }
 
 const indexPage = new IndexPage();
-indexPage.registerComponent(new ButtonGroup());
+indexPage.registerComponent(new ButtonGroup('ButtonGroup'));
+indexPage.registerComponent(new ToggleButton('ToggleButton', '1'));
+indexPage.registerComponent(new ToggleButton('ToggleButton', '2'));
 Page(indexPage);

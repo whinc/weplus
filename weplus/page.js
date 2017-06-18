@@ -1,3 +1,4 @@
+import { utils } from './utils'
 
 class Page {
     constructor() {
@@ -5,9 +6,13 @@ class Page {
     }
 
     onLoad(ChildPage) {
+        const wxPage = this;
+
         // 重建原型链 
-        const originPrototype = Reflect.getPrototypeOf(this);
-        Reflect.setPrototypeOf(this, ChildPage.prototype);    
+        // this                               WXPage
+        //      -> ChildPage -> ... -> Page ->
+        const originPrototype = Reflect.getPrototypeOf(wxPage);
+        Reflect.setPrototypeOf(wxPage, ChildPage.prototype);    
         Reflect.setPrototypeOf(Page.prototype, originPrototype)
 
         // 拷贝原型方法到运行时 Page 实例对象，以便 wxml 事件绑定可以找到对应函数
@@ -18,28 +23,40 @@ class Page {
                 const isPublicMethods = /^[a-zA-Z]/.test(key);
                 return !isLifeCycleMethods && isPublicMethods;
             }).forEach(key => {
-                if (!this.hasOwnProperty(key)) {
-                    this[key] = curPrototype[key]
+                if (!wxPage.hasOwnProperty(key)) {
+                    wxPage[key] = curPrototype[key]
+                } else {
+                    utils.error(`duplicate key! ${curPrototype.constructor.name}.${key} has defined in page({...})`);
                 }
             });
             curPrototype = Reflect.getPrototypeOf(curPrototype);
         }
 
         // 处理组件
-        this._components.forEach(component => {
-            // 组件方法复制一份到当前 Page 对象（wxml中只能调用 Page 对象自身定义的方法）
+        wxPage._components.forEach(component => {
+            // Copy component methods to runtime page. 
+            // Rename the component method to avoid name conflict.
             const proto = Reflect.getPrototypeOf(component);
-            Object.getOwnPropertyNames(proto).forEach(key => {
-                if (typeof proto[key] === 'function') {
-                    this[key] = function () {
-                        proto[key].apply(component, arguments);
+            Object.getOwnPropertyNames(proto).forEach(methodName => {
+                if (typeof proto[methodName] === 'function') {
+                    const methodNameInPage = component.NAME + '_' + methodName;
+                    if (!wxPage[methodNameInPage]) {
+                        wxPage[methodNameInPage] = event => {
+                            const id = event.target.dataset.id;
+                            const targetComponent = wxPage._components.find(c => {
+                                return component.NAME === c.NAME && (id === undefined || c.ID === id)
+                            });
+                            if (targetComponent ) {
+                                proto[methodName].apply(targetComponent , arguments);
+                            }
+                        }
                     }
                 }
             });
 
             // 将组件实例复制到 Page#data 下
-            const componentOwnProps = Object.assign(Object.create(null), component);
-            this.setData({ [component.NAME]:  componentOwnProps});
+            // 传入组件实例，组件事件响应函数中修改组件状态
+            this.setData({ [component.UNIQUE_NAME]:  component});
         });
 
     }

@@ -1,14 +1,10 @@
 import weplus from '../../weplus/index'
 
 class ButtonGroup extends weplus.Component {
-    constructor() {
-        super();
+    constructor(name, id) {
+        super(name, id);
         this.text1 = 't1';
         this.text2 = 't2';
-    }
-
-    get NAME() {
-        return 'ButtonGroup';
     }
 
     onTapBtn1() {
