@@ -4,7 +4,7 @@
 <!--index.wxml-->
 <view class="container">
   <view class="container__item">
-    <button catchtap="onClickPage">Page</button>
+    <button catchtap="onClickPromisify">promisify</button>
   </view>
   <view class="container__item">
     <button catchtap="onClickFetchAPI">fetch api</button>
@@ -13,6 +13,12 @@
     <button catchtap="onClickNetRequest" data-n="3">并发3个网络请求</button>
     <button catchtap="onClickNetRequest" data-n="10">并发10个网络请求</button>
     <button catchtap="onClickNetRequest" data-n="20">并发20个网络请求</button>
+  </view>
+  <view class="container__item">
+    <button catchtap="onClickPage">Page</button>
+  </view>
+  <view class="container__item">
+      <text>Components test</text>
   </view>
   <view class="container__item">
       <template is="ButtonGroup" data="{{...ButtonGroup}}"></template>

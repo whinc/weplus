@@ -54,6 +54,36 @@ class IndexPage extends weplus.Page {
         }
     }
 
+    onClickPromisify() {
+        // promisify wx api
+        weplus.promisify(wx.setStorage)({ key: 'k1', data: 'd1'}).then(res => {
+            console.log('set success %O', res)
+            return weplus.promisify(wx.getStorage)({ key: 'k1'});
+        }).then(res => {
+            console.log('get success %O', res)
+            weplus.promisify(wx.clearStorage)().then(() => {
+                console.log('clear storage');
+            });
+        });
+
+        // promisify custom api 
+        const doSomethingAsync = (name, callback) => {
+            setTimeout(() => {
+                callback('hello' + name)
+            }, 1000)
+        }
+        doSomethingAsync[weplus.promisify.custom] = (name) => {
+            return new Promise((resolve, reject) => {
+                doSomethingAsync(name, (helloName) => {
+                    resolve(helloName)
+                })
+            })
+        }
+        console.log('promisify:' + (weplus.promisify(doSomethingAsync) === doSomethingAsync[weplus.promisify.custom]))
+        doSomethingAsync('Jim', helloName => console.log(helloName))
+        weplus.promisify(doSomethingAsync)('Kit').then(helloName => console.log(helloName))
+    }
+
     onLoad() {
         super.onLoad(IndexPage);
         var that = this
@@ -75,16 +105,6 @@ class IndexPage extends weplus.Page {
                 userInfo: userInfo
             })
         })
-
-        weplus.promisify(wx.setStorage)({ key: 'k1', data: 'd1'}).then(res => {
-            console.log('set success %O', res)
-            return weplus.promisify(wx.getStorage)({ key: 'k1'});
-        }).then(res => {
-            console.log('get success %O', res)
-            weplus.promisify(wx.clearStorage)().then(() => {
-                console.log('clear storage');
-            });
-        });
     }
 }
 

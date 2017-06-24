@@ -1,4 +1,6 @@
 
+const custom = Symbol()
+
 /**
  * wx api promise 化
  * @param {function} wxfn - wx api
@@ -12,10 +14,15 @@
  *      // handle error
  * });
  */
-function promisify(wxfn) {
+const promisify = (wxfn) => {
     if (typeof wxfn !== 'function') {
         return null;
     }
+
+    if (typeof wxfn[custom] === 'function') {
+        return wxfn[custom]
+    } 
+
     return (...args) => {
         return new Promise((resolve, reject) => {
             if (typeof args[0] === 'object' && args[0] !== null) {
@@ -23,13 +30,15 @@ function promisify(wxfn) {
                     success: data => resolve(data),
                     fail: err => reject(err)
                 });
-                wxfn(...args);
+                wxfn.call(wx, ...args)
             } else {
-                wxfn(...args);
+                wxfn.call(wx, ...args)
                 resolve();
             }
         });
     }
 }
+
+promisify.custom = custom
 
 export { promisify }
