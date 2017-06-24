@@ -1,0 +1,21 @@
+{
+  "name": "@whinc/weplus",
+  "version": "0.1.1",
+  "description": "Weplus is a lightweight library for wexin mini program developement. Weplus 是一个轻量级的微信小程序开发库。",
+  "main": "./dist/weplus.js",
+  "scripts": {
+    "clear": "rm dist/*",
+    "build": "webpack ./weplus/index.js ./dist/weplus.js --devtool source-map"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whinc/weplus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/whinc/weplus/issues"
+  },
+  "homepage": "https://github.com/whinc/weplus#readme"
+}

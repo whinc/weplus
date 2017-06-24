@@ -1,4 +1,7 @@
-import weplus from '../../weplus/index'
+// develop package
+// import weplus from '../../weplus/index'
+// publish package
+import weplus from '../../dist/weplus'
 import { ButtonGroup, ToggleButton } from '../../components/index'
 
 //index.js
@@ -26,7 +29,7 @@ class IndexPage extends weplus.Page {
                 age: 25
             }
         };
-        weplus.fetch('https://www.webank.com', init).then(res => {
+        weplus.fetch('https://www.baidu.com', init).then(res => {
             console.log("response: %O", res);
             if (res.ok) {
                 console.log('success:%O', res.text());
