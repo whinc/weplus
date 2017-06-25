@@ -25,16 +25,14 @@ const promisify = (wxfn) => {
 
     return (...args) => {
         return new Promise((resolve, reject) => {
-            if (typeof args[0] === 'object' && args[0] !== null) {
-                Object.assign(args[0], {
-                    success: data => resolve(data),
-                    fail: err => reject(err)
-                });
-                wxfn.call(wx, ...args)
-            } else {
-                wxfn.call(wx, ...args)
-                resolve();
+            if (typeof args[0] !== 'object' || args[0] === null) {
+                args[0] = {};
             }
+            Object.assign(args[0], {
+                success: data => resolve(data),
+                fail: err => reject(err)
+            });
+            wxfn.call(wx, ...args)
         });
     }
 }

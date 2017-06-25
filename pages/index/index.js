@@ -3,6 +3,7 @@
 // publish package
 import weplus from '../../dist/weplus'
 import { ButtonGroup, ToggleButton } from '../../components/index'
+import utils from '../../utils/util'
 
 //index.js
 //获取应用实例
@@ -60,13 +61,15 @@ class IndexPage extends weplus.Page {
     onClickPromisify() {
         // promisify wx api
         weplus.promisify(wx.setStorage)({ key: 'k1', data: 'd1'}).then(res => {
-            console.log('set success %O', res)
             return weplus.promisify(wx.getStorage)({ key: 'k1'});
         }).then(res => {
-            console.log('get success %O', res)
-            weplus.promisify(wx.clearStorage)().then(() => {
-                console.log('clear storage');
-            });
+            utils.assert(res.data === 'd1', 'promisify test[1] passed')
+        });
+
+        weplus.promisify(wx.login)().then(res => {
+            utils.assert(res.code !== undefined, 'promisify test[2] passed')
+        }).catch(error => {
+            // utils.assert(true, 'promisify test[2] passed')
         });
 
         // promisify custom api 
@@ -82,9 +85,8 @@ class IndexPage extends weplus.Page {
                 })
             })
         }
-        console.log('promisify:' + (weplus.promisify(doSomethingAsync) === doSomethingAsync[weplus.promisify.custom]))
-        doSomethingAsync('Jim', helloName => console.log(helloName))
-        weplus.promisify(doSomethingAsync)('Kit').then(helloName => console.log(helloName))
+        utils.assert((weplus.promisify(doSomethingAsync) === doSomethingAsync[weplus.promisify.custom]), 'promisify test[3] passed')
+        weplus.promisify(doSomethingAsync)('Kit').then(helloName => utils.assert(helloName === 'helloKit', 'promisify test[4] passed'))
     }
 
     onLoad() {

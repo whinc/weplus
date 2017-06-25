@@ -16,6 +16,12 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
-module.exports = {
-  formatTime: formatTime
+function assert(assert, msg, errMsg) {
+    if (assert) {
+        console.log(msg)
+    } else {
+        throw new Error(errMsg)
+    }
 }
+
+export default { formatTime, assert }
