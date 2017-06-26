@@ -2,7 +2,7 @@
 
 Weplus is a lightweight library for wexin mini program developement. Weplus 是一个轻量级的微信小程序开发库。
 
-微信小程序自身提供了一套开发框架，但是存在一些不太完善的地方，随着小程序的不断迭代，相信会越来越完善。现阶段 weplus 目标是作为微信小程序开发的一种渐进式增强库，解决开发中遇到的部分问题。之所以说是渐进式增强，weplus 只是一个库，你可以根据需要只引入其中的部分功能，如果微信支持了这部分特性，可以移除掉这部分 weplus。由于 weplus 只是一个库，可以在现有代码中逐步引入 weplus，weplus 做的事情很简单，你完全可以提供自己的替代实现。
+微信小程序自身提供了一套开发框架，但是存在一些不太完善的地方，随着小程序的不断迭代，相信会越来越完善。现阶段 weplus 目标是作为微信小程序开发的一种渐进式增强库，解决开发中遇到的部分问题。之所以说是渐进式增强，weplus 只是一个库，你可以根据需要只引入其中的部分功能，如果微信支持了这部分特性，可以移除掉这部分 weplus。由于 weplus 只是一个库，可以在现有代码中逐步引入 weplus，weplus 做的事情很简单，你完全可以提供自己的替代实现。
 
 已实现特性:
 * 小程序 API promise 化工具
@@ -25,7 +25,7 @@ Weplus is a lightweight library for wexin mini program developement. Weplus 是�
 
 ## 教程
 
-### 1. 安装 weplus
+### 0. 安装 weplus
 
 通过 npm 或 yarn 安装[@whinc/weplus](https://www.npmjs.com/package/@whinc/weplus)
 ```bash
@@ -41,7 +41,7 @@ import weplus from './lib/weplus'
 const weplus = require('./lib/weplus')
 ```
 
-### 2. Promise 化微信 API
+### 1. Promise 化微信 API
 
 微信异步 API 形参具有下面形式：
 ```javascript
@@ -88,7 +88,7 @@ weplus.promisify(doSomethingAsync)('Kit').then(helloName => {
 })
 ```
 
-### 3. fetch API & 无限制的网络接口调用
+### 2. fetch API & 无限制的网络接口调用
 
 `weplus.fetch()`提供了与 Web 规范中定义的 [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) 兼容的接口，你可以继续使用熟悉的 Web 标准 API。
 
@@ -140,9 +140,9 @@ for (let i = 1; i <= n; ++i) {
 
 ![并发请求](./fetch.png)
 
-### 4. Page 基类 - 更强的页面控制
+### 3. Page 基类 - 更强的页面控制
 
-weplus 提供了`Page`类型，作为传入`Page()`方法的参数对象的基类。使用很简单，只需要继承`Page`类型，并重写其`onLoad`方法。下面是两种创建页面的代码比较：
+weplus 提供了`Page`类型，作为传入`Page()`方法的参数对象的基类。使用很简单，只需要继承`Page`类型，并重写其`onLoad`方法。下面是两种创建页面的代码比较：
 
 ```js
 // 微信官方示例的创建方式
@@ -221,13 +221,13 @@ class IndexPage extends weplus.Page {
 Page(new IndexPage());
 ```
 
-使用这种方式创建 Page，让我们可以在页面间共享一些方法，可以达到一定程度的代码复用。更重要的时，这种方式给予了我们在基类中控制页面行为的能力，下面将会介绍的组件化，就是结合了`Page`基类实现的。
+使用这种方式创建 Page，让我们可以在页面间共享一些方法，可以达到一定程度的代码复用。更重要的时，这种方式给予了我们在基类中控制页面行为的能力，下面将会介绍的组件化，就是结合了`Page`基类实现的。
 
-### 5. Component 基类 - 更易使用和维护的组件化
+### 4. Component 基类 - 更易使用和维护的组件化
 
 微信中通过`<template>`来实现组件复用，一般的做法如下：
 
-1. 在页面的`wxml`中引入组件的`wxml`
+1. 在页面的`wxml`中引入组件的`wxml`
 2. 在页面的`wxss`中引入组件的`wxss`
 3. 在页面`js`中导入组件的`js`文件，将组件的状态数据和方法拷贝到页面中
 
