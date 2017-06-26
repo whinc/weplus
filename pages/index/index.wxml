@@ -4,6 +4,9 @@
 <!--index.wxml-->
 <view class="container">
   <view class="container__item">
+    <button catchtap="onClickIncrease">{{num}}</button>
+  </view>
+  <view class="container__item">
     <button catchtap="onClickPromisify">promisify</button>
   </view>
   <view class="container__item">
