@@ -13,9 +13,16 @@ class IndexPage extends weplus.Page {
     constructor() {
         super();
         this.data = {
+          num : 0,
             motto: 'Hello World',
             userInfo: {}
         }
+    }
+
+    onClickIncrease () {
+      this.setData({
+        num: this.data.num + 1
+      })
     }
 
     onClickFetchAPI() {
